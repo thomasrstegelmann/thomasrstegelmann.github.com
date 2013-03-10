@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+		div { background: #F6D7F6; height:400px; }
+		div.insight { background: #D6F4DE; }
+	</style>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+	<div>First paragraph</div>
+	<div>Second paragraph</div>
+	<div>Third paragraph</div>
+	<div>Fourth paragraph</div>
+	<div>Fifth paragraph</div>
+	<script>
+		// Determine whether any of the matched elements are within the current viewport
+		$.fn.extend({
+			inSight: function (senstitivity) {			
+				var senstitivity = senstitivity || 0,
+				viewportTop = $(window).scrollTop() - senstitivity,
+				viewportBottom = ($(window).height() + $(window).scrollTop() + senstitivity),
+				i = 0,
+				l = this.length;
+				for ( ; i < l; i++ ) {
+					if ( ($(this[i]).offset().top <  viewportBottom) && ($(this[i]).offset().top + $(this[i]).height() > viewportTop) ) {
+						return true;
+					}
+				}		
+
+				return false;
+			}
+		});
+		
+		
+		$(window).on('load scroll resize' ,function () {
+			$("div").each(function () {
+				if($(this).inSight(100)) {
+					$(this).addClass('insight');
+				}
+			});
+		});
+	</script>
+</body>
+</html>
